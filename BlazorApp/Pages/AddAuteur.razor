@@ -1,0 +1,56 @@
+﻿@page "/AddAuteur"
+@using Data
+@inject IAuteurService auteurService
+@using Projet.Models
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+<h2>
+    Ajouter Auteur
+</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="Prenom" class="control-label">Prénom</label>
+                <input for="Prenom" class="form-control"
+                       @bind-value="@auteur.Prenom" />
+
+            </div>
+            <div class="form-group">
+                <label for="Nom" class="control-label">Nom</label>
+                <input for="Nom" class="form-control"
+                       @bind-value="@auteur.Nom" />
+
+            </div>
+            <div class="form-group">
+                <label for="Biographie" class="control-label">Biographie</label>
+                <input for="Biographie" class="form-control"
+                       @bind-value="@auteur.Biographie" />
+               
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary"
+                        @onclick="() => CreateAuteur()">
+                    Save
+                </button>
+                <button type="button" class="btn btn-warning"
+                        @onclick="() => cancel()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@code {
+    Auteur auteur = new Auteur();
+
+    protected async Task CreateAuteur()
+    {
+        await auteurService.CreateAuteur(auteur);
+        navigationManager.NavigateTo("/ListAuteur");
+    }
+    void cancel()
+    {
+        navigationManager.NavigateTo("/ListAuteur");
+    }
+}

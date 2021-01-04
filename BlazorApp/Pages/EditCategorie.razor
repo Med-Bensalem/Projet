@@ -1,0 +1,58 @@
+﻿@page "/editCategorie/{id:int}"
+@using Data
+@inject ICategorieService categorieService
+@using Projet.Models
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+<h2>
+    Modifier Catégorie
+</h2>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="Description" class="control-label">Description</label>
+                <input for="Description" class="form-control"
+                       @bind-value="@categorie.Description" />
+                <label for="Designation" class="control-label">Designation</label>
+                <input for="City" class="form-control"
+                       @bind-value="@categorie.Designation" />
+
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary"
+                        @onclick="() => UpdateCategorie()">
+                    Save
+                </button>
+                <button type="button" class="btn btn-warning"
+                        @onclick="() => cancel()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@code  {
+
+    [Parameter]
+    public int id { get; set; }
+
+    Categorie categorie = new Categorie();
+
+    protected override async Task OnInitializedAsync()
+    {
+        categorie = await categorieService.GetCategorie(id);
+    }
+
+    protected async Task UpdateCategorie()
+    {
+        await categorieService.UpdateCategorie(categorie);
+        navigationManager.NavigateTo("/ListCategorie");
+    }
+
+    void cancel()
+    {
+        navigationManager.NavigateTo("/ListCategorie");
+    }
+}

@@ -1,0 +1,112 @@
+﻿@page "/ListEditeur"
+@using Data
+@inject IEditeurService editeurService
+@using Projet.Models
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0
+/css/font-awesome.min.css" rel="stylesheet">
+
+<style>
+    .sort-th {
+        cursor: pointer;
+    }
+
+    .fa {
+        float: right;
+    }
+
+    .btn-custom {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 2px solid #000;
+        margin: 0px 5px 0px 5px;
+    }
+</style>
+<h1>Liste Editeurs</h1>
+<hr />
+<div>
+    <a class="btn btn-primary"
+       href='/AddEditeur'>Ajouter</a>
+</div>
+<br />
+
+@if (editeurs == null)
+{
+    <p><em> Loading...</em></p>
+}
+else
+{
+    @*<div class="row col-md-3 pull-right">
+            <input type="text" id="txtSearch"
+                   placeholder="Search Names..."
+                   class="form-control" @bind="SearchTerm"
+                   @bind:event="oninput" />
+        </div>*@
+    <table class="table table-bordered table-hover">
+
+        <thead>
+            <tr>
+                <th>Id </th>
+                <th> Nom</th>
+                <th>Pays</th>
+                <th>Adresse</th>
+                <th>Téléphone</th>
+                <th> Actions </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (editeurs == null || editeurs.Count == 0)
+            {
+                <tr>
+                    <td colspan="3">No Records to display</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var edit in editeurs)
+                {
+                    <tr>
+                        <td>@edit.EditeurId</td>
+                        <td>@edit.NomEditeur</td>
+                        <td>@edit.Pays</td>
+                        <td>@edit.Adresse</td>
+                        <td>@edit.Telephone</td>
+
+                        <td>
+                            <a class="btn btn-primary"
+                               href='/editEditeur/@edit.EditeurId'>Modifier</a>
+                            󠀠󠀠󠀠󠀠<a class="btn btn-warning" @onclick="() => DeleteEditeur(edit.EditeurId)">
+                                Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+}
+@code {
+
+
+    List<Editeur> editeurs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        editeurs = (await editeurService.GetEditeurs()).ToList();
+    }
+
+    protected async Task DeleteEditeur(int id)
+    {
+        await editeurService.DeleteEditeur(id);
+        editeurs = (await editeurService.GetEditeurs()).ToList();
+
+    }
+
+
+
+}

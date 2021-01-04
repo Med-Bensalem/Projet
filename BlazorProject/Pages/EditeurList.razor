@@ -1,0 +1,50 @@
+﻿@page "/ListEditeurs"
+@inherits EditeurListBase
+
+<h3>Liste Editeurs</h3>
+<hr />
+<a href="AddEditeur" class="btn btn-primary m-1">Ajouter</a>
+
+<div>
+    @if (Editeurs == null)
+    {
+        <div class="spinner"></div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom </th>
+                    <th>Pays </th>
+                    <th>Adresse </th>
+                    <th>Téléphone </th>
+                    <th>Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var edit in Editeurs)
+                {
+                    <tr>
+                        <td>@edit.EditeurId</td>
+                        <td>@edit.NomEditeur</td>
+                        <td>@edit.Pays</td>
+                        <td>@edit.Adresse</td>
+                        <td>@edit.Telephone</td>
+                        <td>
+                            <a href="#" class="btn btn-success m-1"> Modifier </a>
+
+                            <a href="#" class="btn btn-danger m-1"> Supprimer</a>
+                        </td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>
+

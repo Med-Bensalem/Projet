@@ -1,0 +1,106 @@
+﻿@page "/AddLivre"
+@using Data
+@inject ILivreService livreService
+@inject IEditeurService editeurService
+@inject ICategorieService categorieService
+@using Projet.Models
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+<h2>
+    Ajouter Livre
+</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="Titre" class="control-label">Titre</label>
+                <input for="Titre" class="form-control"
+                       @bind-value="@livre.Titre" />
+            </div>
+            <div class="form-group">
+                <label for="NbPages" class="control-label">Nombre Pages</label>
+                <input for="NbPages" class="form-control"
+                       @bind-value="@livre.NbPages" />
+            </div>
+            <div class="form-group">
+                <label for="DateEdition" class="control-label">Date Edition</label>
+                <input type="date" class="form-control"
+                       @bind="@livre.DateEdition" onfocus="this.value=''" />
+            </div>
+            <div class="form-group">
+                <label for="NbExem" class="control-label">Nombre Exemplaires</label>
+                <input for="NbExem" class="form-control"
+                       @bind-value="@livre.NbExemplaires" />
+            </div>
+            <div class="form-group">
+                <label for="Prix" class="control-label">Prix</label>
+                <input for="Prix" class="form-control"
+                       @bind-value="@livre.Prix" />
+            </div>
+            <div class="form-group">
+                <label for="Isbn" class="control-label">Isbn</label>
+                <input for="Isbn" class="form-control"
+                       @bind-value="@livre.Isbn" />
+            </div>
+            <div class="form-group">
+                <label for="Editeur" class="control-label">Editeurs</label>
+                <select for="Editeur" class="form-control"
+                        @bind="@livre.EditeurId">
+                    <option value=0 selected>[Sélectionner Editeur]</option>
+                    @foreach (var edit in editeurs)
+                    {
+                        <option value="@edit.EditeurId">
+                            @edit.NomEditeur
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Categorie" class="control-label">Catégories</label>
+                <select for="Categorie" class="form-control"
+                        @bind="@livre.CategorieId">
+                    <option value=0 selected>[Séléctionner Catégorie]</option>
+                    @foreach (var cat in categories)
+                    {
+                        <option value="@cat.CategorieId">
+                            @cat.Designation
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary"
+                        @onclick="() => CreateLivre()">
+                    Save
+                </button>
+                <button type="button" class="btn btn-warning"
+                        @onclick="() => cancel()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@code {
+    Livre livre = new Livre();
+    List<Editeur> editeurs = new List<Editeur>();
+    List<Categorie> categories = new List<Categorie>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        editeurs = (await editeurService.GetEditeurs()).ToList();
+        categories = (await categorieService.GetCategories()).ToList();
+    }
+
+    protected async Task CreateLivre()
+    {
+        await livreService.CreateLivre(livre) ;
+        navigationManager.NavigateTo("/ListLivre");
+
+    }
+    void cancel()
+    {
+        navigationManager.NavigateTo("/ListLivre");
+    }
+}

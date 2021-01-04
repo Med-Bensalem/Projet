@@ -1,0 +1,55 @@
+﻿@page "/ListLivres"
+@inherits LivreListBase
+
+<h3>Liste Livres</h3>
+<hr />
+<a href="AddLivre" class="btn btn-primary m-1">Ajouter</a>
+<div>
+
+
+
+
+    @if (Livres == null)
+    {
+        <div class="spinner"></div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titre </th>
+                    <th>Nombre Pages </th>
+                    <th>Date Edition </th>
+                    <th>NbExemplaires </th>
+                    <th>Prix</th>
+                    <th>Isbn</th>
+                    <th>Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var liv in Livres)
+                {
+                    <tr>
+                        <td>@liv.LivreId</td>
+                        <td>@liv.Titre</td>
+                        <td>@liv.NbPages</td>
+                        <td>@liv.DateEdition.Date</td>
+                        <td>@liv.NbExemplaires</td>
+                        <td>@liv.Prix</td>
+                        <td>@liv.Isbn</td>
+                        <td>
+                            <a href="#" class="btn btn-primary m-1"> Modifier </a>
+                            <a href="#" class="btn btn-danger m-1"> Supprimer</a>
+                        </td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    </div>

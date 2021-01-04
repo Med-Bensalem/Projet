@@ -1,0 +1,108 @@
+﻿@page "/ListCategorie"
+@using Data
+@inject ICategorieService categorieService
+@using Projet.Models
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0
+/css/font-awesome.min.css" rel="stylesheet">
+
+<style>
+    .sort-th {
+        cursor: pointer;
+    }
+
+    .fa {
+        float: right;
+    }
+
+    .btn-custom {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 2px solid #000;
+        margin: 0px 5px 0px 5px;
+    }
+</style>
+<h1> Liste Catégorie</h1>
+<hr/>
+<div>
+    <a class="btn btn-primary"
+       href='/AddCategorie'>Ajouter</a>
+</div>
+<br />
+
+@if (categories == null)
+{
+    <p><em> Loading...</em></p>
+}
+else
+{
+    @*<div class="row col-md-3 pull-right">
+            <input type="text" id="txtSearch"
+                   placeholder="Search Names..."
+                   class="form-control" @bind="SearchTerm"
+                   @bind:event="oninput" />
+        </div>*@
+    <table class="table table-bordered table-hover">
+
+        <thead>
+            <tr>
+                <th>Id </th>
+                <th> Designation </th>
+                <th> Description </th>
+                <th> Actions </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (categories == null || categories.Count == 0)
+            {
+                <tr>
+                    <td colspan="3">No Records to display</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var cat in categories)
+                {
+                    <tr>
+                        <td>@cat.CategorieId</td>
+                        <td>@cat.Description</td>
+                        <td>@cat.Designation</td>
+
+                        <td>
+                            <a class="btn btn-primary"
+                               href='/editCategorie/@cat.CategorieId'>Modifier</a>
+                            󠀠󠀠󠀠󠀠<a class="btn btn-warning" @onclick="() => DeleteCategorie(cat.CategorieId)">
+                                Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+}
+@code {
+
+
+    List<Categorie> categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = (await categorieService.GetCategories()).ToList();
+    }
+
+    protected async Task DeleteCategorie(int id)
+    {
+        await categorieService.DeleteCategorie(id);
+        categories = (await categorieService.GetCategories()).ToList();
+
+    }
+
+
+
+}

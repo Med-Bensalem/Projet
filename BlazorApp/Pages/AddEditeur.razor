@@ -1,0 +1,62 @@
+﻿@page "/AddEditeur"
+@using Data
+@inject IEditeurService editeurService
+@using Projet.Models
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+<h2>
+    Ajouter Editeur
+</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="Nom" class="control-label">Nom</label>
+                <input for="Nom" class="form-control"
+                       @bind-value="@editeur.NomEditeur" />
+
+            </div>
+            <div class="form-group">
+                <label for="Pays" class="control-label">Pays</label>
+                <input for="Pays" class="form-control"
+                       @bind-value="@editeur.Pays" />
+
+            </div>
+            <div class="form-group">
+                <label for="Adresse" class="control-label">Adresse</label>
+                <input for="Adresse" class="form-control"
+                       @bind-value="@editeur.Adresse" />
+
+            </div>
+            <div class="form-group">
+                <label for="Telephone" class="control-label">Téléphone </label>
+                <input for="Telephone" class="form-control"
+                       @bind-value="@editeur.Telephone" />
+
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary"
+                        @onclick="() => CreateEditeur()">
+                    Save
+                </button>
+                <button type="button" class="btn btn-warning"
+                        @onclick="() => cancel()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@code {
+    Editeur editeur = new Editeur();
+
+    protected async Task CreateEditeur()
+    {
+        await editeurService.CreateEditeur(editeur);
+        navigationManager.NavigateTo("/ListEditeur");
+    }
+    void cancel()
+    {
+        navigationManager.NavigateTo("/ListEditeur");
+    }
+}

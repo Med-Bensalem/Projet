@@ -1,0 +1,48 @@
+﻿@page "/AddCategorie"
+@using Data
+@inject ICategorieService categorieService
+@using Projet.Models
+@inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
+<h2>
+    Ajouter Catégorie
+</h2>
+<hr/>
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label for="Description" class="control-label">Description</label>
+                <input for="Description" class="form-control"
+                       @bind-value="@categorie.Description" />
+            </div>
+            <div class="form-group">
+                <label for="Designation" class="control-label">Designation</label>
+                <input for="City" class="form-control"
+                       @bind-value="@categorie.Designation" />
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary"
+                        @onclick="() => CreateCategorie()">
+                    Save
+                </button>
+                <button type="button" class="btn btn-warning"
+                        @onclick="() => cancel()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@code {
+    Categorie categorie = new Categorie();
+
+    protected async Task CreateCategorie()
+    {
+        await categorieService.CreateCategorie(categorie);
+        navigationManager.NavigateTo("/ListCategorie");
+    }
+    void cancel()
+    {
+        navigationManager.NavigateTo("/ListCategorie");
+    }
+}

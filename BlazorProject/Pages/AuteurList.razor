@@ -1,0 +1,46 @@
+﻿@page "/ListAuteurs"
+@inherits AuteurListBase
+
+<h3>Liste Auteurs</h3>
+<hr />
+<a href="AddAuteur" class="btn btn-primary m-1">Ajouter</a>
+<div>
+    @if (Auteurs == null)
+    {
+        <div class="spinner"></div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Biographie</th>
+                    <th>Actions</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var aut in Auteurs)
+                {
+                    <tr>
+                        <td>@aut.AuteurId</td>
+                        <td>@aut.Prenom</td>
+                        <td>@aut.Nom</td>
+                        <td>@aut.Biographie</td>
+                        <td>
+                            
+                            <a href="#" class="btn btn-success m-1"> Modifier </a>
+                            <a href="#" class="btn btn-danger m-1"> Supprimer</a>
+                        </td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

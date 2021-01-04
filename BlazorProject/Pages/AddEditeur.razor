@@ -1,0 +1,36 @@
+﻿@page "/AddEditeur"
+@inherits EditeurListBase
+<h3>Ajouter Editeur</h3>
+
+<form>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="NomEditeur" class="control-label">Nom Editeur</label>
+                <input form=" NomEditeur" class="form-control" @bind="@Editeur.NomEditeur" />
+            </div>
+            <div class="form-group">
+                <label for="Pays" class="control-label">Pays</label>
+                <input form="Pays" class="form-control" @bind="@Editeur.Pays" />
+            </div>
+            <div class="form-group">
+                <label for="Adresse" class="control-label">Adresse</label>
+                <input form="Adresse" class="form-control" @bind="@Editeur.Adresse" />
+            </div>
+            <div class="form-group">
+                <label for="Telephone" class="control-label">Téléphone</label>
+                <input form="Telephone" class="form-control" @bind="@Editeur.Telephone" />
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <input type="button" class="btn btn-outline-primary" @onclick="@CreateEditeur" value=" Enregistrer" />
+                <input type="button" class="btn btn-outline-danger" @onclick="@Cancel" value="Annuler" />
+            </div>
+        </div>
+
+    </div>
+</form>

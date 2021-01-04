@@ -1,0 +1,110 @@
+﻿@page "/ListAuteur"
+@using Data
+@inject IAuteurService auteurService
+@using Projet.Models
+
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0
+/css/font-awesome.min.css" rel="stylesheet">
+
+<style>
+    .sort-th {
+        cursor: pointer;
+    }
+
+    .fa {
+        float: right;
+    }
+
+    .btn-custom {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+        border: 2px solid #000;
+        margin: 0px 5px 0px 5px;
+    }
+</style>
+<h1>Liste Auteurs</h1>
+<hr/>
+<div>
+    <a class="btn btn-primary"
+       href='/AddAuteur'>Ajouter</a>
+</div>
+<br />
+
+@if (auteurs == null)
+{
+    <p><em> Loading...</em></p>
+}
+else
+{
+    @*<div class="row col-md-3 pull-right">
+            <input type="text" id="txtSearch"
+                   placeholder="Search Names..."
+                   class="form-control" @bind="SearchTerm"
+                   @bind:event="oninput" />
+        </div>*@
+    <table class="table table-bordered table-hover">
+
+        <thead>
+            <tr>
+                <th>Id </th>
+                <th> Prénom</th>
+                <th> Nom</th>
+                <th>Biographie</th>
+                <th> Actions </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (auteurs == null || auteurs.Count == 0)
+            {
+                <tr>
+                    <td colspan="3">No Records to display</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var aut in auteurs)
+                {
+                    <tr>
+                        <td>@aut.AuteurId</td>
+                        <td>@aut.Prenom</td>
+                        <td>@aut.Nom</td>
+                        <td>@aut.Biographie</td>
+
+                        <td>
+                            <a class="btn btn-primary"
+                               href='/editAuteur/@aut.AuteurId'>Modifier</a>
+                            󠀠󠀠󠀠󠀠<a class="btn btn-warning" @onclick="() => DeleteAuteur(aut.AuteurId)">
+                                Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+}
+@code {
+
+
+    List<Auteur> auteurs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        auteurs = (await auteurService.GetAuteurs()).ToList();
+    }
+
+    protected async Task DeleteAuteur(int id)
+    {
+        await auteurService.DeleteAuteur(id);
+        auteurs = (await auteurService.GetAuteurs()).ToList();
+
+    }
+
+
+
+}
